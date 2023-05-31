@@ -37,10 +37,20 @@ struct ContentView: View {
     }
     func loadFile(){
         if let fileURL = Bundle.main.url(forResource: "some-file", withExtension: "txt") {
-            if let fileContents = try? String(contentsOf: fileURL) {
+            if let fileContents = try? String(contentsOf: fileURL ) {
                 fileContents
             }
         }
+    }
+    func test(){
+        let input = """
+a
+d
+c
+"""     let letters = input.components(separatedBy: "\n")
+        let letter = letters.randomElement()
+        
+        let trimmed = letter?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 
