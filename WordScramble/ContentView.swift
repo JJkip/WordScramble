@@ -8,15 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var useWords = [String]()
+    @State private var rootWord = ""
+    @State private var newWord = ""
     let people = ["John", "Kim", "Mary", "Chela", "Kiprop", "Achieng",]
     var body: some View {
-        List {
-            Text("Static row")
-            
-            ForEach(people, id: \.self){
-                Text($0)
+        NavigationView {
+            List {
+                Section {
+                    TextField("Enter your word", text: $newWord)
+                        .textInputAutocapitalization(.never)
+                }
+                Section {
+                    ForEach(useWords, id: \.self){ word in
+                        HStack {
+                            Image(systemName: "\(word.count).circle")
+                            Text(word)
+                        }
+                    }
+                }
             }
-            Text("Static row")
+            .navigationTitle(rootWord)
+            .onSubmit(addNewWord)
+        }
+//        List {
+//            Text("Static row")
+//
+//            ForEach(people, id: \.self){
+//                Text($0)
+//            }
+//            Text("Static row")
 //        List(0..<5){
 //            Text("Dynamic row \($0)")
 //            Section("Section 1") {
@@ -32,8 +53,8 @@ struct ContentView: View {
 //                Text("Static row 3")
 //                Text("Static row 4")
 //            }
-        }
-        .listStyle(.grouped)
+//        }
+//        .listStyle(.grouped)
     }
     func loadFile(){
         if let fileURL = Bundle.main.url(forResource: "some-file", withExtension: "txt") {
@@ -56,6 +77,15 @@ c
         let letter = letters.randomElement()
         
         let trimmed = letter?.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    func addNewWord() {
+        // lowercase and trim the word, to make sure we don't add duplicate words with case differences
+        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        // exit if the remaining string is empty
+        guard answer.count > 0 else { return }
+        // extra validation to come
+        useWords.insert(answer, at: 0)
+        newWord = ""
     }
 }
 
