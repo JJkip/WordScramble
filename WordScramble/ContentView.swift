@@ -43,11 +43,16 @@ struct ContentView: View {
         }
     }
     func test(){
+        let word  = "Swift"
+        let checker = UITextChecker()
+        let range = NSRange(location: 0, length: word.utf16.count)
+        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        
         let input = """
 a
 d
 c
-"""     let letters = input.components(separatedBy: "\n")
+""";     let letters = input.components(separatedBy: "\n")
         let letter = letters.randomElement()
         
         let trimmed = letter?.trimmingCharacters(in: .whitespacesAndNewlines)
